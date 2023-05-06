@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class FollowPath : MonoBehaviour
 {
-    // Variavel que define a transform do objetivo de movimentação
+    // Variavel que define o transform do  movimentação
     Transform goal;
 
-    // Variaveis de movimentação do tanque 
+    // Variaveis do tanque
     public float speed = 5.0f;
     public float accuracy = 0.05f;
     public float rotSpeed = 0.2f;
 
-    // Variaveis relacionadas aos waypoints e ao graph que irá definir o movimento do tanque
+    // Variaveis relacionadas aos waypoints
     public GameObject wpManager;
     GameObject[] wps;
     GameObject currentNode;
@@ -21,27 +21,27 @@ public class FollowPath : MonoBehaviour
 
     void Start()
     {
-        // Peagr o waypoint manager e o Graph e colocar o node atual como o primeiro waypoint do array
+        // Peagr o waypoint manager e o Graph e colocar como o primeiro waypoint do array
         wps = wpManager.GetComponent<WPManager>().waypoints;
         g = wpManager.GetComponent<WPManager>().graph;
         currentNode = wps[0];
     }
 
-    // Função que utiliza o algoritmo A* para direcionar o tanque ao waypoint especificado (Heli)
+    // Função que utiliza o algoritmo A* para direcionar o tanque ao waypoint especificado para o ponto A
     public void GoToHeli()
     {
         g.AStar(currentNode, wps[1]);
         currentWP = 0;
     }
 
-    // Função que utiliza o algoritmo A* para direcionar o tanque ao waypoint especificado (Ruins)
+    // Função que utiliza o algoritmo A* para direcionar o tanque ao waypoint especificado para o ponto B
     public void GoToRuin()
     {
         g.AStar(currentNode, wps[6]);
         currentWP = 0;
     }
 
-    // Função que utiliza o algoritmo A* para direcionar o tanque ao waypoint especificado (Factory)
+    // Função que utiliza o algoritmo A* para direcionar o tanque ao waypoint especificado para o ponto C
     public void GoToFactory()
     {
         g.AStar(currentNode, wps[8]);
@@ -50,13 +50,13 @@ public class FollowPath : MonoBehaviour
 
     void LateUpdate()
     {
-        // Se a distância do caminho for 0 OU o waypoint atual for igual ao último ponto do caminho retornar e não executar nenhum código
+        // Se a distância do caminho for 0 OU o waypoint atual for igual ao último ponto do caminho retornar
         if (g.getPathLength() == 0 || currentWP == g.getPathLength()) return;
 
         //O nó que estará mais próximo neste momento
         currentNode = g.getPathPoint(currentWP);
 
-        //se estivermos mais próximo bastante do nó o tanque se moverá para o próximo
+        //se estivermos mais próximo bastante do tanque se moverá para o próximo
         if (Vector3.Distance(g.getPathPoint(currentWP).transform.position, transform.position) < accuracy)
         {
             currentWP++;

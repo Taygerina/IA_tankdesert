@@ -14,9 +14,9 @@ public class Graph
 	{
 		Node node = new Node(id);
 		nodes.Add(node);
-		
-		//remove colliders and mesh renderer
-		if(removeCollider)
+
+		//remover colisores e renderizador de malha
+		if (removeCollider)
 			GameObject.Destroy(id.GetComponent<Collider>());
 		if(removeRenderer)
 			GameObject.Destroy(id.GetComponent<Renderer>());
@@ -96,7 +96,7 @@ public class Graph
 	  	{
 	  		int i = lowestF(open);
 			Node thisnode = open[i];
-			if(thisnode.id == endId)  //path found
+			if(thisnode.id == endId)  //caminho encontrado
 			{
 				reconstructPath(start,end);
 				return true;	
@@ -141,7 +141,7 @@ public class Graph
 		
 		return false;	
 	}
-	
+	//criando a lista dos pontos
 	public void reconstructPath(Node startId, Node endId)
 	{
 		pathList.Clear();
@@ -190,13 +190,13 @@ public class Graph
     
     public void debugDraw()
     {
-      	//draw edges
-    	for (int i = 0; i < edges.Count; i++)
+		//desenhar arestas
+		for (int i = 0; i < edges.Count; i++)
 	  	{
     		Debug.DrawLine(edges[i].startNode.id.transform.position, edges[i].endNode.id.transform.position, Color.red);
     		
 	  	}
-	  	//draw directions
+		//desenhar direções
 	  	for (int i = 0; i < edges.Count; i++)
 	  	{
 	  		Vector3 to = (edges[i].startNode.id.transform.position - edges[i].endNode.id.transform.position) * 0.05f;
